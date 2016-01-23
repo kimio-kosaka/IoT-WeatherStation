@@ -3,7 +3,7 @@
 */
 
 // Parameters
-var server = '192.168.10.209';   //server hostnem or IP-adder
+var server = 'localhost';   //server hostnem or IP-adder
 var port = 5030;            //Web access port
 var ioport = 5040;          //socket.ip port
 

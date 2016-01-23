@@ -5,7 +5,7 @@
 // Parameters
 var interval_time = 5 * (60*1000); // measuring interval time 5 miniutes
 var melevation = 15; // elevation of your Weather Station 15m
-var server = '192.168.10.209'; //server hostname or IP-address
+var server = 'localhost'; //server hostname or IP-address
 var ioport = 5040; // Socket.io port-number
 
 // global arrys
