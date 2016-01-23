@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>IoT WeatherStation</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://{{host}}:{{port}}/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      /*
+      * Setup
+      */
+      /*------------- Graph parameter ----------------*/
+      // graph size
+      var w = 700;
+      var h = 200;
+
+      // graph temperature domain
+      var temperature_min= -20;
+      var temperature_max= 50;
+
+      // graph pressure domain
+      var puressure_min = 920;
+      var puressure_max = 1050;
+      /* ---------------------------------------------*/
+
+      //data arrys
+      var temperature_arry = []; 
+      var pressure_arry = [];
+      // push dummy data 
+      for( n = 0; n < 60 ; n++ ){
+          temperature_arry.push(temperature_min);   
+          pressure_arry.push(puressure_min);      
+      }
+     
+      //0. specify domain and port of your socket.io server
+      var socket = io.connect('http://{{host}}:{{port}}');
+      
+      //emit init request to client.js via server
+      window.onload = function(){
+          socket.emit('init');
+      };
+      
+      // get init respons from client.js via server 
+      socket.on('init_res',function(data){
+          temperature_arry = data.t_arry;
+          pressure_arry = data.p_arry;
+          temperature_viz();
+          pressure_viz();          
+      });
+ 
+      // get measuring data from client.js via server
+      socket.on('multi',function(data){    
+        var pressure = document.getElementById("pressure");
+        var temperature = document.getElementById("temperature");
+        temperature.innerHTML = data.temperature.toFixed(1)+' °C';
+        pressure.innerHTML = data.pressure.toFixed(1)+' hPa'; 
+ 
+        // push temperatue data
+        temperature_arry.shift();
+        temperature_arry.push(data.temperature);  
+        // visualize temperature     
+        temperature_viz();
+        
+        // push puressure data
+       pressure_arry.shift();
+        pressure_arry.push(data. pressure);        
+        // visualize pressure     
+        pressure_viz();
+        
+      });
+
+ /*
+ * D3 visualizing
+ */
+     var tScale = d3.scale.linear()
+                    .domain([temperature_min, temperature_max])
+                    .range([0,h]);
+                    
+      function temperature_viz(){
+         svg_t.selectAll("rect")
+         .data(temperature_arry)
+         .attr('y',function(d){
+             return h-tScale(d);
+         })
+         .attr("height",function(d){
+             return tScale(d);
+         });        
+      }
+      
+     var pScale = d3.scale.linear()
+                    .domain([puressure_min, puressure_max])
+                    .range([0,h]);
+      
+      function pressure_viz(){
+        svg_p.selectAll("rect")
+         .data( pressure_arry)
+         .attr("y", function(d){
+            return h-pScale(d);
+         })
+         .attr("height",function(d){
+             return pScale(d);
+         });         
+      }
+    </script>
+    <link rel="stylesheet" type="text/css" href="./controller.css">
+
+  </head>
+  <body>
+    <h1>IoT WeatherStation</h1>
+    <h2>Temperature</h2> 
+    Now <span id='temperature'>???</span>
+    <div id="Graph_temperature"></div>
+    <script type="text/javascript">
+    var svg_t = d3.select("#Graph_temperature")
+         .append("svg")
+         .attr("width", w)
+         .attr("height", h);
+      svg_t.selectAll("rect")
+         .data(temperature_arry)
+         .enter()
+         .append("rect")
+         .attr("x",function(d,i){
+             return 11*i;
+         })
+         .attr("y", function(d){
+             return h;
+         })
+         .attr("width", 10)
+         .attr("height",function(d){
+             return 0;
+         });
+    </script>
+    <h2>Barometric Pressure</h2>   
+    Now <span id='pressure'>????</span>
+    <div id="Graph_pressure"></div>
+    <script type="text/javascript">
+    var svg_p = d3.select("#Graph_pressure")
+         .append("svg")
+         .attr("width", w)
+         .attr("height", h);
+
+      svg_p.selectAll("rect")
+         .data(pressure_arry)
+         .enter()
+         .append("rect")
+         .attr("x",function(d,i){
+             return 11*i;
+         })
+         .attr("y", function(d){
+             return h;
+         })
+         .attr("width", 10)
+         .attr("height",function(d){
+             return 0;
+         });
+    </script>
+  </body>
+</html>
