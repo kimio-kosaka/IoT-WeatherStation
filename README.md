@@ -11,4 +11,4 @@ c.f. [rwaldron/johnny-five/docs/multi-mpl3115a2.md](https://github.com/rwaldron/
 c.f. [MPL3115A2 - I2C Barometric Pressure/Altitude/Temperature Sensor](https://www.adafruit.com/products/1893)
 ___
 ##referrence site##
-[kosamari/IoT-Boilerplate](https://github.com/kosamari/IoT-Boilerplate)
+This project is based on the [kosamari/IoT-Boilerplate](https://github.com/kosamari/IoT-Boilerplate)
