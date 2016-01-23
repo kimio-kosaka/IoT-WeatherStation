@@ -5,9 +5,7 @@
     "hbs": "~2.7.0",
     "socket.io": "~1.1.0",
     "socket.io-client": "^1.3.5",
-    "date-utils": "~1.2.17",
-    "": ""
-    
+    "date-utils": "~1.2.17"
   },
   "scripts": {
     "start": "node server.js"
@@ -16,6 +14,6 @@
   "main": "client.js",
   "devDependencies": {},
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": ""
 }
