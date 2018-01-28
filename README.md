@@ -1,16 +1,16 @@
-#IoT Weather Station#
+# IoT Weather Station
 
-##Barometer##
+## Barometer
 
 for measuring device of barometric pressure and temperature.  
 using Arduino (or Raspberry Pi) and Adafruit MPL3115A2 sensor.  
 the MPL3115A2 is able to  measure barometric puresssure and temperature.
 
-###Screen capture###
+### Screen capture
 
 ![capture](https://pbs.twimg.com/media/CYl6dYFUEAArX7x.png:large)
 
-###circuit###
+### circuit
 
 ![circuit](http://make.kosakalab.com/.blog/wp-content/uploads/2016/01/barometer-mpl3115a2-768x409.png)
 
